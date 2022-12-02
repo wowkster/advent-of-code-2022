@@ -21,23 +21,30 @@ if (dayNumber < 1 || dayNumber > 25) {
 let part1
 try {
     part1 = require(`./day-${dayNumber}/part-1`)
-} catch (e) {
-    console.error('Could not find part 1 solution for day', dayNumber)
-    process.exit(1)
-}
+} catch {}
 
 let part2
 try {
     part2 = require(`./day-${dayNumber}/part-2`)
-} catch (e) {
-    console.error('Could not find part 2 solution for day', dayNumber)
+} catch {}
+
+if (!part1 && !part2) {
+    console.log(chalk.red(`No solution implementations found for day ${dayNumber}!`))
     process.exit(1)
+} else if (!part2) {
+    console.log(chalk.red('No solution implementations found for part 2!'))
+} else if (!part1) {
+    console.log(chalk.red('No solution implementations found for part 1!'))
 }
 
 // Run the solutions
 ;(async () => {
-    console.log(chalk.blue('==== Part 1 ===='))
-    console.log(chalk.magenta('Result:'), await part1())
-    console.log(chalk.blue('==== Part 2 ===='))
-    console.log(chalk.magenta('Result:'), await part2())
+    if (part1) {
+        console.log(chalk.blue('==== Part 1 ===='))
+        console.log(chalk.magenta('Result:'), await part1())
+    }
+    if (part2) {
+        console.log(chalk.blue('==== Part 2 ===='))
+        console.log(chalk.magenta('Result:'), await part2())
+    }
 })()
